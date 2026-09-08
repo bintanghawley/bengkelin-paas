@@ -96,8 +96,15 @@ class Purchase extends Model
     private function resolvePath($gambar): ?string
     {
         if (!$gambar) return null;
-        if (str_starts_with($gambar, 'img/') || str_starts_with($gambar, 'http')) {
+        if (str_starts_with($gambar, 'http://') || str_starts_with($gambar, 'https://')) {
+            return $gambar;
+        }
+        if (str_starts_with($gambar, 'img/')) {
             return asset($gambar);
+        }
+        $disk = config('filesystems.default', 'public');
+        if ($disk === 's3') {
+            return \Illuminate\Support\Facades\Storage::disk('s3')->url($gambar);
         }
         return asset('storage/' . $gambar);
     }

@@ -140,10 +140,11 @@ class TireController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
+            $disk = config('filesystems.default', 'public');
             if ($tire->gambar) {
-                Storage::disk('public')->delete($tire->gambar);
+                Storage::disk($disk)->delete($tire->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('tires', 'public');
+            $data['gambar'] = $request->file('gambar')->store('tires', $disk);
         }
 
         $tire->update($data);
@@ -171,7 +172,8 @@ class TireController extends Controller
         }
 
         if ($tire->gambar) {
-            Storage::disk('public')->delete($tire->gambar);
+            $disk = config('filesystems.default', 'public');
+            Storage::disk($disk)->delete($tire->gambar);
         }
 
         $tire->delete();

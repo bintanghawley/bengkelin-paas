@@ -134,10 +134,11 @@ class OilController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
+            $disk = config('filesystems.default', 'public');
             if ($oil->gambar) {
-                Storage::disk('public')->delete($oil->gambar);
+                Storage::disk($disk)->delete($oil->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('oils', 'public');
+            $data['gambar'] = $request->file('gambar')->store('oils', $disk);
         }
 
         $oil->update($data);
@@ -165,7 +166,8 @@ class OilController extends Controller
         }
 
         if ($oil->gambar) {
-            Storage::disk('public')->delete($oil->gambar);
+            $disk = config('filesystems.default', 'public');
+            Storage::disk($disk)->delete($oil->gambar);
         }
 
         $oil->delete();

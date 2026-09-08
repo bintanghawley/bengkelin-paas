@@ -181,10 +181,11 @@ class ServiceController extends Controller
             }
 
             if ($request->hasFile('gambar')) {
+                $disk = config('filesystems.default', 'public');
                 if ($service->gambar) {
-                    Storage::disk('public')->delete($service->gambar);
+                    Storage::disk($disk)->delete($service->gambar);
                 }
-                $data['gambar'] = $request->file('gambar')->store('services', 'public');
+                $data['gambar'] = $request->file('gambar')->store('services', $disk);
             }
 
             $service->update($data);
@@ -231,7 +232,8 @@ class ServiceController extends Controller
         }
 
         if ($service->gambar) {
-            Storage::disk('public')->delete($service->gambar);
+            $disk = config('filesystems.default', 'public');
+            Storage::disk($disk)->delete($service->gambar);
         }
 
         $service->delete(); // cascade will delete items

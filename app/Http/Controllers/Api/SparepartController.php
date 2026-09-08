@@ -128,10 +128,11 @@ class SparepartController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
+            $disk = config('filesystems.default', 'public');
             if ($sparepart->gambar) {
-                Storage::disk('public')->delete($sparepart->gambar);
+                Storage::disk($disk)->delete($sparepart->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('spareparts', 'public');
+            $data['gambar'] = $request->file('gambar')->store('spareparts', $disk);
         }
 
         $sparepart->update($data);
@@ -159,7 +160,8 @@ class SparepartController extends Controller
         }
 
         if ($sparepart->gambar) {
-            Storage::disk('public')->delete($sparepart->gambar);
+            $disk = config('filesystems.default', 'public');
+            Storage::disk($disk)->delete($sparepart->gambar);
         }
 
         $sparepart->delete();
