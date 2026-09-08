@@ -10,6 +10,22 @@ fi
 echo "=== [Bengkelin Startup] ==="
 echo "Port: ${PORT:-80}"
 
+# Optimize DNS resolver in container to prevent AAAA IPv6 timeouts
+echo "options single-request timeout:1" >> /etc/resolv.conf 2>/dev/null || true
+
+# Pre-resolve database host into /etc/hosts to eliminate DNS query latency
+if [ -n "$DATABASE_URL" ]; then
+    DB_HOST_PARSED=$(php -r '$url = parse_url(getenv("DATABASE_URL")); echo $url["host"] ?? "";' 2>/dev/null || true)
+    if [ -n "$DB_HOST_PARSED" ]; then
+        echo "Pre-resolving database host ($DB_HOST_PARSED)..."
+        DB_IPV4=$(php -r '$ip = gethostbyname("'"$DB_HOST_PARSED"'"); if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) echo $ip;' 2>/dev/null || true)
+        if [ -n "$DB_IPV4" ]; then
+            echo "$DB_IPV4 $DB_HOST_PARSED" >> /etc/hosts 2>/dev/null || true
+            echo "DNS fast-path: mapped $DB_HOST_PARSED -> $DB_IPV4"
+        fi
+    fi
+fi
+
 # Run package discovery with runtime environment variables
 echo "Running package discovery..."
 php artisan package:discover --ansi || true
@@ -21,6 +37,12 @@ php artisan optimize:clear || true
 # Run database migrations automatically
 echo "Running database migrations..."
 php artisan migrate --force || echo "[WARNING] Migration failed! Check DATABASE_URL and database connectivity."
+
+# Cache configuration, routes, and views for high performance
+echo "Caching configuration, routes, and views..."
+php artisan config:cache || true
+php artisan route:cache || true
+php artisan view:cache || true
 
 # Ensure only mpm_prefork is loaded
 a2dismod mpm_event mpm_worker 2>/dev/null || true
