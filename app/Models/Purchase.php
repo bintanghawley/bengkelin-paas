@@ -104,7 +104,11 @@ class Purchase extends Model
         }
         $disk = config('filesystems.default', 'public');
         if ($disk === 's3') {
-            return \Illuminate\Support\Facades\Storage::disk('s3')->url($gambar);
+            try {
+                return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($gambar, now()->addHours(24));
+            } catch (\Throwable $e) {
+                return \Illuminate\Support\Facades\Storage::disk('s3')->url($gambar);
+            }
         }
         return asset('storage/' . $gambar);
     }

@@ -44,7 +44,11 @@ class Oil extends Model
 
         $disk = config('filesystems.default', 'public');
         if ($disk === 's3') {
-            return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->gambar);
+            try {
+                return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->gambar, now()->addHours(24));
+            } catch (\Throwable $e) {
+                return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->gambar);
+            }
         }
 
         return asset('storage/' . $this->gambar);
