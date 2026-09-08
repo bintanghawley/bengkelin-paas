@@ -33,9 +33,14 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
-# Install dependencies and build frontend assets
-RUN composer install --no-dev --optimize-autoloader --no-interaction \
-    && npm install \
+# Allow composer to run as superuser in container
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Install PHP dependencies without running scripts (scripts will run at runtime with env vars)
+RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
+
+# Install frontend dependencies (including devDependencies for vite build) and compile assets
+RUN npm install --include=dev --no-audit --no-fund \
     && npm run build
 
 # Set directory permissions for Laravel

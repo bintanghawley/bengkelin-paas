@@ -7,6 +7,9 @@ if [ -n "$PORT" ]; then
     sed -ri -e "s/<VirtualHost \*:[0-9]+>/<VirtualHost \*:$PORT>/" /etc/apache2/sites-available/000-default.conf
 fi
 
+# Run package discovery with runtime environment variables
+php artisan package:discover --ansi || true
+
 # Clear old cache
 php artisan optimize:clear || true
 
