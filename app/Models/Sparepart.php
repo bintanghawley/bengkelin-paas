@@ -39,8 +39,14 @@ class Sparepart extends Model
             return asset($this->gambar);
         }
 
+        // 1. If file exists on local public storage, serve directly
+        if (file_exists(storage_path('app/public/' . $this->gambar))) {
+            return asset('storage/' . $this->gambar);
+        }
+
+        // 2. Otherwise if S3 is configured, generate cloud URL
         $disk = config('filesystems.default', 'public');
-        if ($disk === 's3' && !str_starts_with($this->gambar, 'public/')) {
+        if ($disk === 's3' && config('filesystems.disks.s3.key') && !str_starts_with($this->gambar, 'public/')) {
             try {
                 return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->gambar, now()->addHours(24));
             } catch (\Throwable $e) {
