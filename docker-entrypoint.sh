@@ -14,5 +14,9 @@ php artisan optimize:clear || true
 echo "Running database migrations..."
 php artisan migrate --force || true
 
+# Ensure only mpm_prefork is loaded
+a2dismod mpm_event mpm_worker 2>/dev/null || true
+a2enmod mpm_prefork 2>/dev/null || true
+
 # Start Apache in foreground
 exec apache2-foreground

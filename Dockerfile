@@ -13,8 +13,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_pgsql pdo_mysql bcmath zip opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite for Laravel routing
-RUN a2enmod rewrite
+# Ensure only mpm_prefork is enabled and enable mod_rewrite
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+    && a2enmod mpm_prefork rewrite
 
 # Configure Apache DocumentRoot to /var/www/html/public
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
