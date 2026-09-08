@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': form.querySelector('[name="_token"]').value,
                 },
                 body: formData,
             });
@@ -154,6 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
                 submitBtn.classList.add('bg-emerald-600');
                 window.location.href = data.redirect;
+                return;
+            }
+
+            if (response.status === 419) {
+                showGeneralError('Sesi kedaluwarsa karena server diperbarui. Memuat ulang halaman...');
+                setTimeout(() => window.location.reload(), 1000);
                 return;
             }
 
