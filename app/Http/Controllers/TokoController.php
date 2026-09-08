@@ -11,17 +11,14 @@ class TokoController extends Controller
 {
     public function index(Request $request)
     {
-        $kategori = $request->get('kategori'); // null, 'sparepart', 'ban', 'oli'
+        $kategori = $request->get('kategori');
 
-        $query = Product::where('stok', '>', 0);
-
-        if ($kategori && in_array($kategori, ['sparepart', 'ban', 'oli'])) {
-            $query->where('kategori', $kategori);
-        }
-
-        $products = $query->latest()->get();
-
-        return view('toko.index', compact('products', 'kategori'));
+        return match ($kategori) {
+            'ban' => redirect()->route('toko.banmotor'),
+            'oli' => redirect()->route('toko.oli'),
+            'sparepart' => redirect()->route('toko.sparepart'),
+            default => redirect()->route('home'),
+        };
     }
 
     public function show($id)
