@@ -1,0 +1,178 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Oil;
+use Illuminate\Database\Seeder;
+
+class OilSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $oils = [
+            [
+                'nama' => 'YAMALUBE SUPER MATIC 10W30 1 L',
+                'harga' => 65000,
+                'stok' => 20,
+                'gambar' => 'img/oli-motor/yamalube.webp',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '10W30',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Semi Sintetik',
+                'merek' => 'Yamalube',
+                'fitur' => 'Meredam panas mesin secara optimal, Menjaga performa motor matic tetap stabil, Formulasi khusus mesin injeksi modern',
+                'deskripsi' => 'Oli mesin Yamalube Super Matic diformulasikan khusus untuk mesin motor matic 4-Tak Yamaha generasi terbaru yang membutuhkan perlindungan maksimal terhadap gesekan.',
+            ],
+            [
+                'nama' => 'AHM OIL MPX 2 10W30 800 ml',
+                'harga' => 48000,
+                'stok' => 30,
+                'gambar' => 'img/oli-motor/ahm.jpg',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '10W30',
+                'ukuran' => '800 ml',
+                'tipe_oli' => 'Oli Semi Sintetik',
+                'merek' => 'AHM',
+                'fitur' => 'Menghemat konsumsi bahan bakar, Meningkatkan daya tahan mesin, Membersihkan kotoran di ruang bakar',
+                'deskripsi' => 'AHM Oil MPX 2 (Maximum Protection Expert) memberikan proteksi maksimal pada mesin sepeda motor Honda tipe kopling kering (matic) dengan tingkat kekentalan presisi.',
+            ],
+            [
+                'nama' => 'MOTUL GP MATIC 4T 10W40 1 L',
+                'harga' => 85000,
+                'stok' => 15,
+                'gambar' => 'img/oli-motor/motul.webp',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '10W40',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Ester',
+                'merek' => 'Motul',
+                'fitur' => 'Teknologi Ester untuk respon mesin lebih responsif, Proteksi tinggi terhadap oksidasi, Memperpanjang umur pakai busi',
+                'deskripsi' => 'Oli pelumas mesin motor matic premium dari Motul dengan basis Ester yang menjamin kenyamanan perpindahan gigi otomatis dan ketahanan suhu tinggi.',
+            ],
+            [
+                'nama' => 'MOTUL 300V FACTORY LINE ROAD RACING 10W40 1 L',
+                'harga' => 375000,
+                'stok' => 8,
+                'gambar' => 'img/oli-motor/motul.webp',
+                'jenis_oli' => 'oli motor sport',
+                'kekentalan' => '10W40',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Double Ester',
+                'merek' => 'Motul',
+                'fitur' => 'Teknologi Double Ester (Ester Core) kelas balap, Tenaga akselerasi mesin maksimal, Proteksi ekstrem pada rpm tinggi',
+                'deskripsi' => 'Pelumas balap motor sport terbaik di dunia. Memberikan cengkeraman kopling basah yang luar biasa dan perlindungan penuh bagi mesin berperforma ultra tinggi.',
+            ],
+            [
+                'nama' => 'SHELL ADVANCE AX7 MATIC 10W40 800 mL',
+                'harga' => 55000,
+                'stok' => 25,
+                'gambar' => 'img/oli-motor/shell.webp',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '10W40',
+                'ukuran' => '800 mL',
+                'tipe_oli' => 'Oli Semi Sintetik',
+                'merek' => 'Shell',
+                'fitur' => 'Mengurangi kebisingan dan getaran mesin, Stabilitas geser yang sangat baik, Perlindungan optimal terhadap keausan katup',
+                'deskripsi' => 'Shell Advance AX7 Matic dirancang dengan Shell Active Cleansing Technology membantu mencegah pengendapan partikel kotoran yang saling melekat di dalam mesin.',
+            ],
+            [
+                'nama' => 'CASTROL POWER1 ULTIMATE 4T 10W30 1 L',
+                'harga' => 110000,
+                'stok' => 12,
+                'gambar' => 'img/oli-motor/castrol.jpg',
+                'jenis_oli' => 'oli motor sport',
+                'kekentalan' => '10W30',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Ester',
+                'merek' => 'Castrol',
+                'fitur' => 'Formulasi Full Synthetic 5-in-1, Akselerasi luar biasa, Perlindungan mesin terbaik, Suhu mesin tetap dingin',
+                'deskripsi' => 'Castrol POWER1 Ultimate 4T dengan formula full synthetic memberikan performa luar biasa dalam 5 bidang utama: akselerasi, perlindungan, kenyamanan berkendara, pendinginan, dan ketahanan.',
+            ],
+            [
+                'nama' => 'YAMALUBE GEAR MOTOR OIL 120ML',
+                'harga' => 18000,
+                'stok' => 50,
+                'gambar' => 'img/oli-motor/yamalube.webp',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '20W50',
+                'ukuran' => '120ML',
+                'tipe_oli' => 'Oli Gear',
+                'merek' => 'Yamalube',
+                'fitur' => 'Melumasi gigi transmisi dengan sempurna, Tahan terhadap tekanan ekstrim, Mencegah timbulnya karat',
+                'deskripsi' => 'Oli gardan (gear oil) resmi Yamaha untuk melumasi bagian transmisi akhir pada sepeda motor matic agar tetap senyap dan awet.',
+            ],
+            [
+                'nama' => 'MOTUL GEAR MATIC OIL 120ML',
+                'harga' => 35000,
+                'stok' => 30,
+                'gambar' => 'img/oli-motor/motul.webp',
+                'jenis_oli' => 'oli motor matic',
+                'kekentalan' => '10W40',
+                'ukuran' => '120ML',
+                'tipe_oli' => 'Oli Gear',
+                'merek' => 'Motul',
+                'fitur' => 'Ketahanan tekanan ekstrim terbaik, Mengurangi gesekan mekanis transmisi, Daya tahan sangat panjang',
+                'deskripsi' => 'Oli gear khusus matic dari Motul dengan viskositas yang disesuaikan untuk melumasi sistem transmisi matic modern di area perkotaan padat.',
+            ],
+            [
+                'nama' => 'SHELL ADVANCE ULTRA 4T 10W40 1 L',
+                'harga' => 165000,
+                'stok' => 10,
+                'gambar' => 'img/oli-motor/shell.webp',
+                'jenis_oli' => 'oli motor sport',
+                'kekentalan' => '10W40',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Ester',
+                'merek' => 'Shell',
+                'fitur' => 'Bahan dasar Gas-to-Liquid (GTL) Shell PurePlus, Kebersihan piston maksimal, Pengurangan gesekan hingga 25%',
+                'deskripsi' => 'Oli motor full synthetic tercanggih dari Shell untuk motor sport, memaksimalkan performa dan melindungi mesin dari endapan lumpur.',
+            ],
+            [
+                'nama' => 'CASTROL ACTIV 4T 20W50 800 ml',
+                'harga' => 48000,
+                'stok' => 20,
+                'gambar' => 'img/oli-motor/castrol.jpg',
+                'jenis_oli' => 'oli motor bebek',
+                'kekentalan' => '20W50',
+                'ukuran' => '800 ml',
+                'tipe_oli' => 'Oli Semi Sintetik',
+                'merek' => 'Castrol',
+                'fitur' => 'Molekul Actibond menempel erat pada mesin saat dimatikan, Perlindungan ekstra saat pemanasan awal',
+                'deskripsi' => 'Castrol Activ 4T dirancang khusus untuk motor bebek harian dengan formula Actibond yang memberikan perlindungan terus menerus 24 jam.',
+            ],
+            [
+                'nama' => 'YAMALUBE SPORT MOTOR OIL 10W40 1 L',
+                'harga' => 58000,
+                'stok' => 20,
+                'gambar' => 'img/oli-motor/yamalube.webp',
+                'jenis_oli' => 'oli motor sport',
+                'kekentalan' => '10W40',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Semi Sintetik',
+                'merek' => 'Yamalube',
+                'fitur' => 'Formula semi-synthetic tangguh, Anti slip kopling, Menstabilkan putaran mesin',
+                'deskripsi' => 'Pelumas mesin motor 4-tak Yamaha tipe kopling basah (sport) untuk pemakaian harian maupun perjalanan jauh.',
+            ],
+            [
+                'nama' => 'AHM OIL SPX 1 10W30 1 L',
+                'harga' => 68000,
+                'stok' => 22,
+                'gambar' => 'img/oli-motor/ahm.jpg',
+                'jenis_oli' => 'oli motor sport',
+                'kekentalan' => '10W30',
+                'ukuran' => '1 L',
+                'tipe_oli' => 'Oli Ester',
+                'merek' => 'AHM',
+                'fitur' => 'Fully Synthetic pelumas sport kopling basah, Proteksi korosi maksimal, Efisiensi mesin tertinggi',
+                'deskripsi' => 'AHM Oil SPX 1 (Superior Protection Expert) diformulasikan khusus dengan teknologi full synthetic untuk motor bebek sport Honda.',
+            ],
+        ];
+
+        foreach ($oils as $oil) {
+            Oil::updateOrCreate(['nama' => $oil['nama']], $oil);
+        }
+    }
+}
