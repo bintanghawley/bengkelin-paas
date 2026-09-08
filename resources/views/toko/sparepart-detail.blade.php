@@ -23,8 +23,8 @@
             {{-- Column Left: Image (Single Cover) --}}
             <div class="lg:col-span-6">
                 <div class="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] aspect-square flex items-center justify-center overflow-hidden group shadow-sm">
-                    @if($sparepart->gambar)
-                        <img src="{{ str_starts_with($sparepart->gambar, 'img/') || str_starts_with($sparepart->gambar, 'http') ? asset($sparepart->gambar) : asset('storage/' . $sparepart->gambar) }}" alt="{{ $sparepart->nama }}" class="w-full h-full object-cover">
+                    @if($sparepart->image_url)
+                        <img src="{{ $sparepart->image_url }}" alt="{{ $sparepart->nama }}" class="w-full h-full object-cover">
                     @else
                         {{-- Empty Placeholder --}}
                         <div class="absolute inset-0 p-8">
@@ -102,7 +102,7 @@
                             id: "sp-{{ $sparepart->id }}",
                             nama: {{ json_encode($sparepart->nama) }},
                             harga: {{ $sparepart->harga }},
-                            gambar: "{{ $sparepart->gambar ? (str_starts_with($sparepart->gambar, 'img/') || str_starts_with($sparepart->gambar, 'http') ? asset($sparepart->gambar) : asset('storage/'.$sparepart->gambar)) : '' }}",
+                            gambar: {{ json_encode($sparepart->image_url ?: '') }},
                             kategori: "Sparepart"
                         })'
                         class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-8 rounded-full transition flex items-center justify-center gap-2 text-sm uppercase tracking-wider">

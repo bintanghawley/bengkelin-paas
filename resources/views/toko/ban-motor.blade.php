@@ -301,8 +301,8 @@
                                     <div class="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
                                         <a href="{{ route('toko.banmotor.show', $tire->id) }}" class="flex-1 flex flex-col">
                                             <div class="aspect-square bg-zinc-100 dark:bg-zinc-800/30 flex items-center justify-center relative overflow-hidden">
-                                                @if($tire->gambar)
-                                                    <img src="{{ str_starts_with($tire->gambar, 'img/') || str_starts_with($tire->gambar, 'http') ? asset($tire->gambar) : asset('storage/' . $tire->gambar) }}" alt="{{ $tire->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" decoding="async">
+                                                @if($tire->image_url)
+                                                    <img src="{{ $tire->image_url }}" alt="{{ $tire->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" decoding="async">
                                                 @else
                                                     <div class="absolute inset-0 p-6">
                                                         <div class="w-full h-full border border-dashed border-zinc-300 dark:border-zinc-700/60 rounded-2xl flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 gap-2">

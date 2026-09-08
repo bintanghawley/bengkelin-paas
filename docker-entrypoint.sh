@@ -38,6 +38,16 @@ php artisan optimize:clear || true
 echo "Running database migrations..."
 php artisan migrate --force || echo "[WARNING] Migration failed! Check DATABASE_URL and database connectivity."
 
+# Ensure storage directories, symlink, and permissions exist
+mkdir -p /var/www/html/storage/app/public/tires \
+         /var/www/html/storage/app/public/oils \
+         /var/www/html/storage/app/public/spareparts \
+         /var/www/html/storage/app/public/services \
+         /var/www/html/storage/app/public/products
+php artisan storage:link --force || true
+chown -R www-data:www-data /var/www/html/storage 2>/dev/null || true
+chmod -R 775 /var/www/html/storage 2>/dev/null || true
+
 # Cache configuration, routes, and views for high performance
 echo "Caching configuration, routes, and views..."
 php artisan config:cache || true

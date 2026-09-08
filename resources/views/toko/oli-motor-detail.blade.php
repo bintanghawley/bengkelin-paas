@@ -23,8 +23,8 @@
             {{-- Column Left: Image (Single Cover) --}}
             <div class="lg:col-span-6">
                 <div class="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] aspect-square flex items-center justify-center overflow-hidden group shadow-sm">
-                    @if($oil->gambar)
-                        <img src="{{ str_starts_with($oil->gambar, 'img/') || str_starts_with($oil->gambar, 'http') ? asset($oil->gambar) : asset('storage/' . $oil->gambar) }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover">
+                    @if($oil->image_url)
+                        <img src="{{ $oil->image_url }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover">
                     @else
                         {{-- Empty Placeholder --}}
                         <div class="absolute inset-0 p-8">
@@ -104,7 +104,7 @@
                             id: "oil-{{ $oil->id }}",
                             nama: {{ json_encode($oil->nama) }},
                             harga: {{ $oil->harga }},
-                            gambar: "{{ $oil->gambar ? (str_starts_with($oil->gambar, 'img/') || str_starts_with($oil->gambar, 'http') ? asset($oil->gambar) : asset('storage/'.$oil->gambar)) : '' }}",
+                            gambar: {{ json_encode($oil->image_url ?: '') }},
                             kategori: "Oli Motor"
                         })'
                         class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-8 rounded-full transition flex items-center justify-center gap-2 text-sm uppercase tracking-wider">

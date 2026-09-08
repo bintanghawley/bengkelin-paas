@@ -29,8 +29,8 @@
                     @forelse ($spareparts as $sp)
                     <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800/30 transition-colors">
                         <td class="px-6 py-4 text-center">
-                             @if($sp->gambar)
-                                <img src="{{ str_starts_with($sp->gambar, 'img/') || str_starts_with($sp->gambar, 'http') ? asset($sp->gambar) : asset('storage/' . $sp->gambar) }}" class="w-10 h-10 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 mx-auto">
+                             @if($sp->image_url)
+                                <img src="{{ $sp->image_url }}" class="w-10 h-10 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 mx-auto">
                             @else
                                 <div class="w-10 h-10 bg-gray-100 dark:bg-zinc-800 rounded-lg border border-gray-200 dark:border-zinc-700 mx-auto flex items-center justify-center text-zinc-400 text-[8px]">KOSONG</div>
                             @endif

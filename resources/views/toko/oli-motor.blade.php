@@ -271,8 +271,8 @@
                                     <div class="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
                                         <a href="{{ route('toko.oli.show', $oil->id) }}" class="flex-1 flex flex-col">
                                             <div class="aspect-square bg-zinc-100 dark:bg-zinc-800/30 flex items-center justify-center relative overflow-hidden">
-                                                @if($oil->gambar)
-                                                    <img src="{{ str_starts_with($oil->gambar, 'img/') || str_starts_with($oil->gambar, 'http') ? asset($oil->gambar) : asset('storage/' . $oil->gambar) }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" decoding="async">
+                                                @if($oil->image_url)
+                                                    <img src="{{ $oil->image_url }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" decoding="async">
                                                 @else
                                                     <div class="absolute inset-0 p-6">
                                                         <div class="w-full h-full border border-dashed border-zinc-300 dark:border-zinc-700/60 rounded-2xl flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 gap-2">

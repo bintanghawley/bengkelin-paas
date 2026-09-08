@@ -118,8 +118,8 @@
                         {{-- Detail Item --}}
                         <div class="flex gap-4 items-start pb-6 border-b border-zinc-100 dark:border-zinc-800">
                             <div class="w-20 h-20 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-750 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center">
-                                @if($oil->gambar)
-                                    <img src="{{ str_starts_with($oil->gambar, 'img/') || str_starts_with($oil->gambar, 'http') ? asset($oil->gambar) : asset('storage/' . $oil->gambar) }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover">
+                                @if($oil->image_url)
+                                    <img src="{{ $oil->image_url }}" alt="{{ $oil->nama }}" class="w-full h-full object-cover">
                                 @else
                                     <svg class="w-10 h-10 text-zinc-300 dark:text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

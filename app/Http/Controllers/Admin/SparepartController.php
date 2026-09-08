@@ -42,8 +42,10 @@ class SparepartController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $disk = config('filesystems.default', 'public');
-            $data['gambar'] = $request->file('gambar')->store('spareparts', $disk);
+            $uploaded = $this->uploadGambar($request->file('gambar'), 'spareparts');
+            if ($uploaded) {
+                $data['gambar'] = $uploaded;
+            }
         }
 
         Sparepart::create($data);
@@ -77,11 +79,18 @@ class SparepartController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $disk = config('filesystems.default', 'public');
-            if ($sparepart->gambar) {
-                Storage::disk($disk)->delete($sparepart->gambar);
+            if ($sparepart->gambar && !str_starts_with($sparepart->gambar, 'img/')) {
+                $disk = config('filesystems.default', 'public');
+                try {
+                    Storage::disk($disk)->delete($sparepart->gambar);
+                } catch (\Throwable $e) {
+                    Storage::disk('public')->delete($sparepart->gambar);
+                }
             }
-            $data['gambar'] = $request->file('gambar')->store('spareparts', $disk);
+            $uploaded = $this->uploadGambar($request->file('gambar'), 'spareparts');
+            if ($uploaded) {
+                $data['gambar'] = $uploaded;
+            }
         }
 
         $sparepart->update($data);
@@ -98,13 +107,44 @@ class SparepartController extends Controller
 
         $sparepart = Sparepart::findOrFail($id);
 
-        if ($sparepart->gambar) {
+        if ($sparepart->gambar && !str_starts_with($sparepart->gambar, 'img/')) {
             $disk = config('filesystems.default', 'public');
-            Storage::disk($disk)->delete($sparepart->gambar);
+            try {
+                Storage::disk($disk)->delete($sparepart->gambar);
+            } catch (\Throwable $e) {
+                Storage::disk('public')->delete($sparepart->gambar);
+            }
         }
 
         $sparepart->delete();
 
         return back()->with('success', 'Sparepart berhasil dihapus!');
+    }
+
+    private function uploadGambar($file, string $folder): ?string
+    {
+        $defaultDisk = config('filesystems.default', 'public');
+
+        if ($defaultDisk === 's3') {
+            try {
+                $path = $file->store($folder, 's3');
+                if ($path) {
+                    return $path;
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("S3 upload failed: " . $e->getMessage());
+            }
+        }
+
+        try {
+            $path = $file->store($folder, 'public');
+            if ($path) {
+                return $path;
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Public storage upload failed: " . $e->getMessage());
+        }
+
+        return null;
     }
 }

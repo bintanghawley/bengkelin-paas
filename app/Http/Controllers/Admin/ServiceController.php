@@ -44,8 +44,7 @@ class ServiceController extends Controller
 
             $gambarPath = null;
             if ($request->hasFile('gambar')) {
-                $disk = config('filesystems.default', 'public');
-                $gambarPath = $request->file('gambar')->store('services', $disk);
+                $gambarPath = $this->uploadGambar($request->file('gambar'), 'services');
             }
 
             $service = Service::create([
@@ -107,11 +106,18 @@ class ServiceController extends Controller
 
             $gambarPath = $service->gambar;
             if ($request->hasFile('gambar')) {
-                $disk = config('filesystems.default', 'public');
-                if ($gambarPath) {
-                    Storage::disk($disk)->delete($gambarPath);
+                if ($gambarPath && !str_starts_with($gambarPath, 'img/')) {
+                    $disk = config('filesystems.default', 'public');
+                    try {
+                        Storage::disk($disk)->delete($gambarPath);
+                    } catch (\Throwable $e) {
+                        Storage::disk('public')->delete($gambarPath);
+                    }
                 }
-                $gambarPath = $request->file('gambar')->store('services', $disk);
+                $uploaded = $this->uploadGambar($request->file('gambar'), 'services');
+                if ($uploaded) {
+                    $gambarPath = $uploaded;
+                }
             }
 
             $service->update([
@@ -144,14 +150,45 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-        if ($service->gambar) {
+        if ($service->gambar && !str_starts_with($service->gambar, 'img/')) {
             $disk = config('filesystems.default', 'public');
-            Storage::disk($disk)->delete($service->gambar);
+            try {
+                Storage::disk($disk)->delete($service->gambar);
+            } catch (\Throwable $e) {
+                Storage::disk('public')->delete($service->gambar);
+            }
         }
         $service->delete(); // cascade akan hapus service_items
 
         return redirect()->route('admin.dashboard')
             ->with('success', 'Layanan servis berhasil dihapus.');
+    }
+
+    private function uploadGambar($file, string $folder): ?string
+    {
+        $defaultDisk = config('filesystems.default', 'public');
+
+        if ($defaultDisk === 's3') {
+            try {
+                $path = $file->store($folder, 's3');
+                if ($path) {
+                    return $path;
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("S3 upload failed: " . $e->getMessage());
+            }
+        }
+
+        try {
+            $path = $file->store($folder, 'public');
+            if ($path) {
+                return $path;
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Public storage upload failed: " . $e->getMessage());
+        }
+
+        return null;
     }
 }
 

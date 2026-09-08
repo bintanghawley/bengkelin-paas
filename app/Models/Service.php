@@ -50,7 +50,7 @@ class Service extends Model
 
     public function getGambarUrlAttribute(): string
     {
-        if ($this->gambar) {
+        if ($this->gambar && $this->gambar !== '0') {
             if (str_starts_with($this->gambar, 'http://') || str_starts_with($this->gambar, 'https://')) {
                 return $this->gambar;
             }
@@ -58,11 +58,15 @@ class Service extends Model
                 return asset($this->gambar);
             }
             $disk = config('filesystems.default', 'public');
-            if ($disk === 's3') {
+            if ($disk === 's3' && !str_starts_with($this->gambar, 'public/')) {
                 try {
                     return \Illuminate\Support\Facades\Storage::disk('s3')->temporaryUrl($this->gambar, now()->addHours(24));
                 } catch (\Throwable $e) {
-                    return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->gambar);
+                    try {
+                        return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->gambar);
+                    } catch (\Throwable $e2) {
+                        return asset('storage/' . $this->gambar);
+                    }
                 }
             }
             return asset('storage/' . $this->gambar);

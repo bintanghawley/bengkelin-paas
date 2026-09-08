@@ -23,8 +23,8 @@
             {{-- Column Left: Image (Single Cover) --}}
             <div class="lg:col-span-6">
                 <div class="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] aspect-square flex items-center justify-center overflow-hidden group shadow-sm">
-                    @if($tire->gambar)
-                        <img src="{{ str_starts_with($tire->gambar, 'img/') || str_starts_with($tire->gambar, 'http') ? asset($tire->gambar) : asset('storage/' . $tire->gambar) }}" alt="{{ $tire->nama }}" class="w-full h-full object-cover">
+                    @if($tire->image_url)
+                        <img src="{{ $tire->image_url }}" alt="{{ $tire->nama }}" class="w-full h-full object-cover">
                     @else
                         {{-- Empty Placeholder --}}
                         <div class="absolute inset-0 p-8">
@@ -99,7 +99,7 @@
                             id: "tire-{{ $tire->id }}",
                             nama: {{ json_encode($tire->nama) }},
                             harga: {{ $tire->harga }},
-                            gambar: "{{ $tire->gambar ? (str_starts_with($tire->gambar, 'img/') || str_starts_with($tire->gambar, 'http') ? asset($tire->gambar) : asset('storage/'.$tire->gambar)) : '' }}",
+                            gambar: {{ json_encode($tire->image_url ?: '') }},
                             kategori: "Ban Motor"
                         })'
                         class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-8 rounded-full transition flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
